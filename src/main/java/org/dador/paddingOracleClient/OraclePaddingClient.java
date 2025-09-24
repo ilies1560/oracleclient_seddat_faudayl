@@ -24,10 +24,10 @@ public class OraclePaddingClient {
      */
     protected byte[] buildPaddingArray(int n) {
         byte[] result = new byte[BLOCK_SIZE];
-
-        /**
-         * TODO : Your CODE HERE
-         */
+        int i=0;
+        for (i=BLOCK_SIZE-n; i<BLOCK_SIZE; i++) {
+            result[i] = (byte) n;
+        }
         return result;
     }
 
