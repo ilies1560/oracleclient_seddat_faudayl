@@ -45,7 +45,11 @@ public class OraclePaddingClient {
     protected byte[] buildGuessForPosition(byte[] iv, byte[] decoded, int position, byte guess) {
         byte[] result = new byte[BLOCK_SIZE];
         System.arraycopy(iv, 0, result, 0, iv.length);
-        result[position] = (byte) (iv[position]^guess^1);
+        //result[position] = (byte) (iv[position]^guess^1);
+        result = xorArray(iv,decoded);
+        result = xorArray(result, buildPaddingArray(BLOCK_SIZE-position));
+        result[position] ^= guess;
+
         return result;
     }
 
@@ -161,8 +165,8 @@ public class OraclePaddingClient {
             String hexresult = "";
             int padlen;
 
-            //for (int i = 0; i < messageblocks.length - 1; i++) {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < messageblocks.length - 1; i++) {
+            //for (int i = 0; i < 1; i++) {
 
                 if (i == messageblocks.length - 2) {
                     System.out.print("Decodage du dernier bloc : calcul du padding");
